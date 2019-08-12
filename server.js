@@ -8,15 +8,26 @@ const knex = require('knex')
 const register = require('./controllers/register')
 const signin = require('./controllers/signin')
 const image = require('./controllers/image')
+const history = require('./controllers/history')
+
 
 
 const db = knex({
   client: 'pg',
   connection: {
-    connectionString: process.env.DATABASE_URL,
-  	ssl: true,
+    host: '127.0.0.1',
+    user: 'Rav',
+    password: '',
+    database: 'test'
   }
 });
+// const db = knex({
+//   client: 'pg',
+//   connection: {
+//     connectionString: process.env.DATABASE_URL,
+//   	ssl: true,
+//   }
+// });
 
 const app = express()
 app.use(bodyParser.json())
@@ -30,15 +41,22 @@ app.get('/', (req, res) => {
 //------------------------------------------------------------------------
 app.post('/signin', (req, res) => {signin.handleSignin(req, res, db, bcrypt, saltRounds)})
 //------------------------------------------------------------------------
-app.post('/register', (req, res) => {register.handleRegister(req, res, db, bcrypt, saltRounds)})
+app.post('/register', (req, res) => {register.handleRegister(req, res, db)})
 //------------------------------------------------------------------------
 app.put('/image', (req, res) => {image.handleImage(req, res, db)})
 //------------------------------------------------------------------------
-app.post('/imageurl', (req, res) => {image.handleApiCall(req, res)})
+app.post('/imageurl', (req, res) => {image.handleApiCall(req, res, db)})
+//------------------------------------------------------------------------
+app.post('/postcolors', (req, res) => {image.postColorsInDB(req, res, db)})
+//------------------------------------------------------------------------
+app.post('/history', (req, res) => {history.showHistory(req, res, db)})
+//------------------------------------------------------------------------
+app.post('/entries', (req, res) => {image.getEntries(req, res, db)})
 //------------------------------------------------------------------------
 app.listen(process.env.PORT || 3000, () => {
 	console.log(`app is running on port ${process.env.PORT}`)
 })
+
 
 
 
