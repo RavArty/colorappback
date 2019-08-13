@@ -3,7 +3,7 @@ const showHistory = (req, res, db) => {
   
   const {id} = req.body
 //  console.log('showhistory: ', id)
-  db.select('imgurl', 'colors').from('colors')
+  db.select('imgurl', 'colors', 'colorvalues').from('colors')
   .where('id_user', '=', id)
 //  .then(imgurl => console.log(imgurl))
   .then(data => res.json(data))

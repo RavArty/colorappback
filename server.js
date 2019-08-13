@@ -29,6 +29,17 @@ const db = knex({
 //   }
 // });
 
+// const whitelist = ['http://localhost:3001']
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error('Not allowed by CORS'))
+//     }
+//   }
+// }
+
 const app = express()
 app.use(bodyParser.json())
 app.use(cors())
@@ -41,7 +52,11 @@ app.get('/', (req, res) => {
 //------------------------------------------------------------------------
 app.post('/signin', (req, res) => {signin.handleSignin(req, res, db, bcrypt, saltRounds)})
 //------------------------------------------------------------------------
+app.post('/checkuser', (req, res) => {register.checkUserInDb(req, res, db)})
+//------------------------------------------------------------------------
 app.post('/register', (req, res) => {register.handleRegister(req, res, db)})
+//------------------------------------------------------------------------
+app.post('/entries', (req, res) => {register.returnEntries(req, res, db)})
 //------------------------------------------------------------------------
 app.put('/image', (req, res) => {image.handleImage(req, res, db)})
 //------------------------------------------------------------------------

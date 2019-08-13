@@ -5,7 +5,6 @@ const app = new Clarifai.App({
 });
 
 const handleApiCall = (req, res, db) => {
-	
 	app.models.predict(Clarifai.COLOR_MODEL, req.body.input)
 	.then(data => res.json(data))
 	.catch(err => res.status(400).json('unable to load API', err))
@@ -21,13 +20,21 @@ const getEntries = (req, res, db) => {
 	.catch(err => res.status(404).json("unable to get entries"))
 }
 const postColorsInDB = (req, res, db) => {
-	const {id, input, colors} = req.body
-	db('colors').insert({
+	// console.log('postColorsInDB')
+	const {id, input, colors, colorValue} = req.body
+	//  console.log('id: ', id)
+	//  console.log('input: ', input)
+	//  console.log('postColors colro: ', colors)
+	//  console.log('postColors colro: ', colorValue)
+	db('colors').insert({  
 		id_user: id,
 		imgurl: input,
-		colors: colors
+		colors: colors,
+		colorvalues: colorValue
 	})
-	.then(res => res.json())
+	.returning('id_user')
+	.then(id_user => res.json(id_user))
+//	.then(resp => console.log('resp12: ', resp.body))
 	.catch(err => res.status(404).json("unable to insert colors ", err))
 }
 
