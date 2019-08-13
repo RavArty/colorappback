@@ -3,7 +3,7 @@ const clarifai = require('clarifai')
 const app = new Clarifai.App({
  apiKey: 'f708fd0eb7ad441c93f44dae1de7d9e0'
 });
-
+//return dominant colors
 const handleApiCall = (req, res, db) => {
 	app.models.predict(Clarifai.COLOR_MODEL, req.body.input)
 	.then(data => res.json(data))
@@ -19,13 +19,11 @@ const getEntries = (req, res, db) => {
 	})
 	.catch(err => res.status(404).json("unable to get entries"))
 }
+
+// upload image url and color codes in db
 const postColorsInDB = (req, res, db) => {
-	// console.log('postColorsInDB')
 	const {id, input, colors, colorValue} = req.body
-	//  console.log('id: ', id)
-	//  console.log('input: ', input)
-	//  console.log('postColors colro: ', colors)
-	//  console.log('postColors colro: ', colorValue)
+
 	db('colors').insert({  
 		id_user: id,
 		imgurl: input,
@@ -34,12 +32,12 @@ const postColorsInDB = (req, res, db) => {
 	})
 	.returning('id_user')
 	.then(id_user => res.json(id_user))
-//	.then(resp => console.log('resp12: ', resp.body))
 	.catch(err => res.status(404).json("unable to insert colors ", err))
 }
-
+// increases number of uploaded images by 1 and returns the value
 const handleImage = (req, res, db) => {
 	const {id} = req.body
+	console.log("id: ", id)
 	db('users').where('id', '=', id)
 	.increment('entries', 1)
 	.returning('entries')
@@ -47,7 +45,6 @@ const handleImage = (req, res, db) => {
 		res.json(entries[0])
 	})
 	.catch(err => res.status(404).json("unable to get entries"))
-//	postColorsInDB(req, db)
 }
 
 module.exports = {
