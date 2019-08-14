@@ -12,22 +12,22 @@ const history = require('./controllers/history')
 
 
 
-const db = knex({
-  client: 'pg',
-  connection: {
-    host: '127.0.0.1',
-    user: 'Rav',
-    password: '',
-    database: 'test'
-  }
-});
 // const db = knex({
 //   client: 'pg',
 //   connection: {
-//     connectionString: process.env.DATABASE_URL,
-//   	ssl: true,
+//     host: '127.0.0.1',
+//     user: 'Rav',
+//     password: '',
+//     database: 'test'
 //   }
 // });
+const db = knex({
+  client: 'pg',
+  connection: {
+    connectionString: process.env.DATABASE_URL,
+  	ssl: true,
+  }
+});
 
 // const whitelist = ['http://localhost:3001']
 // const corsOptions = {
