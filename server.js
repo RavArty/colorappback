@@ -29,16 +29,17 @@ const db = knex({
   }
 });
 
-// const whitelist = ['http://localhost:3001']
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error('Not allowed by CORS'))
-//     }
-//   }
-// }
+const whitelist = ['http://localhost:3001', 
+'https://colorappfront.herokuapp.com']
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 
 const app = express()
 app.use(bodyParser.json())
