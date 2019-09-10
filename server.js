@@ -1,7 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const bcrypt = require('bcrypt')
-const saltRounds = 10;
+//const bcrypt = require('bcrypt')
+//const saltRounds = 10;
 const cors = require('cors')
 const knex = require('knex')
 
@@ -12,22 +12,22 @@ const history = require('./controllers/history')
 
 
 
-// const db = knex({
-//   client: 'pg',
-//   connection: {
-//     host: '127.0.0.1',
-//     user: 'Rav',
-//     password: '',
-//     database: 'test'
-//   }
-// });
 const db = knex({
   client: 'pg',
   connection: {
-    connectionString: process.env.DATABASE_URL,
-  	ssl: true,
+    host: '127.0.0.1',
+    user: 'Rav',
+    password: '',
+    database: 'test'
   }
 });
+// const db = knex({
+//   client: 'pg',
+//   connection: {
+//     connectionString: process.env.DATABASE_URL,
+//   	ssl: true,
+//   }
+// });
 
 const whitelist = ['http://localhost:3001', 
 'https://colorappfront.herokuapp.com']
@@ -51,7 +51,7 @@ app.get('/', (req, res) => {
 	res.send('it is working')
 })
 //------------------------------------------------------------------------
-app.post('/signin', (req, res) => {signin.handleSignin(req, res, db, bcrypt, saltRounds)})
+//app.post('/signin', (req, res) => {signin.handleSignin(req, res, db, bcrypt, saltRounds)})
 //------------------------------------------------------------------------
 app.post('/checkuser', (req, res) => {register.checkUserInDb(req, res, db)})
 //------------------------------------------------------------------------
@@ -72,7 +72,6 @@ app.post('/entries', (req, res) => {image.getEntries(req, res, db)})
 app.listen(process.env.PORT || 3000, () => {
 	console.log(`app is running on port ${process.env.PORT}`)
 })
-
 
 
 

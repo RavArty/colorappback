@@ -36,7 +36,7 @@ const postColorsInDB = (req, res, db) => {
 }
 // increases number of uploaded images by 1 and returns the value
 const handleImage = (req, res, db) => {
-	const {id} = req.body
+	const {id} = req.body 
 	db('users').where('id', '=', id)
 	.increment('entries', 1)
 	.returning('entries')

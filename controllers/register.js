@@ -32,7 +32,6 @@
 // returns number of uploaded images after logging
   const returnEntries = (req, res, db) => {
     const { id } = req.body
-
     db('users').select()
     .where('id', '=', id)
     .returning('entries')
